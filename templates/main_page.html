@@ -11,8 +11,8 @@
         <div class="cont_kurs">
             <div class="logo">
             </div>
-            <h3 class="txt">Курсы</h3>
-            <h3 class="txt">Курсы созданые нейросетью</h3>
+            <h3 class="txt" a href="#courses">Курсы</h3>
+            <h3 class="txt" a href="#add-course">Курсы созданые нейросетью</h3>
         </div>
         <div class="cont_reg">
             <h3 class="txt">Вход</h3>
@@ -31,7 +31,82 @@
             <button class="btn">Создать свой курс</button>
         </div>
     </div>
+    <section id="courses" class="container">
+        <h2 class="section-title">Активные курсы</h2>
+        <div class="courses-grid" id="courses-container">
+            <!-- Гружу курсы через JS!!! -->
+        </div>
+    </section>
+    <section id="courses" class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2></h2>
+            <button id="delete-all-btn" class="btn" style="background: #e74c3c;">
+                🗑️ Удалить все курсы
+            </button>
+        </div>
+        <div class="courses-grid" id="courses-container">
+            <!-- Курсы будут загружены через JavaScript -->
+        </div>
+    </section>
+    <section id="add-course" class="container">
+        <div class="add-course">
+            <h2 class="form-title">Создать новый курс</h2>
+            <form id="course-form">
+                <div class="form-group">
+                    <label for="course-name">Название курса</label>
+                    <input type="text" id="course-name" required placeholder="Например, Веб-разработка с нуля">
+                </div>
+                <div class="form-group">
+                    <label for="course-description">Описание курса</label>
+                    <textarea id="course-description" required placeholder="Опишите содержание курса, чему научатся студенты"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="course-category">Категория</label>
+                    <select id="course-category" required>
+                        <option value="">Выберите категорию</option>
+                        <option value="programming">Программирование</option>
+                        <option value="freimwork">Фреймвокри</option>
+                        <option value="Java">Java</option>
+                        <option value="Python">Python</option>
+                        <option value="C++">C++</option>
+                        <option value="C#">Наука</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="course-duration">Длительность (часов)</label>
+                    <input type="number" id="course-duration" required placeholder="Например, 48" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="course-level">Уровень сложности</label>
+                    <select id="course-level" required>
+                        <option value="">Выберите уровень</option>
+                        <option value="beginner">Начинающий</option>
+                        <option value="intermediate">Средний</option>
+                        <option value="advanced">Продвинутый</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Создать курс</button>
+            </form>
+        </div>
+    </section>
+
+        <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Cosmic</div>
+                <ul class="footer-links">
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="#courses">Курсы</a></li>
+                    <li><a href="#add-course">Создать курс</a></li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+                <p class="copyright">© 2025 Cosmic. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
     <div class="zvezdi"></div>
     <div class="zvezdi1"></div>
+    <script src="./js/script.js"></script>
 </body>
 </html>
