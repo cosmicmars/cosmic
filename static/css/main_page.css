@@ -65,6 +65,12 @@
     background-size: 4.5vw;
     background-image: url('/templates/png/Profil.png');
 }
+.Profl img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%; /* если нужна круглая аватарка */
+}
 .osnova {
     display: flex;
     flex-direction: column;

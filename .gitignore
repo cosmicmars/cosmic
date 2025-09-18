@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.python-version
+
+# Flask instance folder
+instance/
+
+# VS Code settings
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Pytest cache
+.pytest_cache/
+
+# Logs
+*.log
+
+# Environment
