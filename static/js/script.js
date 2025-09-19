@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         id: 1,
                         name: "Python основы",
                         description: "Помогает освоить базовые понятия Python, включая типы данных, конструкции языка и принципы чёткой структуры программы.",
-                        category: "programming",
+                        category: "python",
                         duration: "56",
                         level: "beginner",
                         students: 13412,
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         id: 2,
                         name: "Java Script",
                         description: "программирования JavaScript. В ходе курса вы узнаете основные концепции языка, включая переменные, типы данных, условные конструкции, циклы, функции и объекты",
-                        category: "programming",
+                        category: "javaScript",
                         duration: "48",
                         level: "beginner",
                         students: 7633,
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         id: 3,
                         name: "Flask",
                         description: "Освойте создание современных веб-приложений с помощью Flask — одного из самых популярных Python-фреймворков",
-                        category: "programming",
+                        category: "flask",
                         duration: "21",
                         level: "beginner",
                         students: 4651,
@@ -163,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.getElementById('courses').scrollIntoView({ behavior: 'smooth' });
             
-            alert('Курс успешно создан!'); // АЛЕРТ ТОЛЬКО ДЛЯ ПРОВЕРКИ
         }
 
         function stringToColor(str) {
@@ -204,7 +203,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function getCategoryIcon(category) {
             const icons = {
-                'programming': '💻',
+                'javaScript': '⚡',
+                'python': '🐍',
+                'c++': '🚀',
+                'flask': '🧪',
+                'freimwork': '⚛️',
             };
             return icons[category] || '📚';
         }
@@ -212,6 +215,9 @@ document.addEventListener('DOMContentLoaded', function() {
         function getCategoryName(category) {
             const names = {
                 'programming': 'Программирование',
+                'python': 'Python',
+                'javaScript': 'JavaScript',
+                'freimwork': 'ФреймВорки',
             };
             return names[category] || 'Другое';
         }
@@ -222,6 +228,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 'intermediate': 'Средний',
                 'advanced': 'Продвинутый'
             };
-            return levels[level] || 'Любой';
-        }
+                    return levels[level] || 'Любой';
+                }
+                const presetCourseColors = [
+            {
+                background: 'linear-gradient(135deg, #007acc 0%, #00599c 100%)',
+                border: '#007acc',
+                icon: '👨‍💻'
+            },
+            {
+                background: 'linear-gradient(135deg, #28a745 0%, #1e7e34 100%)',
+                border: '#28a745',
+                icon: '🚀'
+            },
+            {
+                background: 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)',
+                border: '#dc3545',
+                icon: '🎮'
+            }
+                ];
 

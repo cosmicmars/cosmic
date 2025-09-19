@@ -43,11 +43,10 @@
     flex-direction: column;
     justify-content: flex-start;
     width: 10vw;
-    height: 10vh; 
     margin-top: 1vh;
     background-repeat: no-repeat;
     background-size: 4.5vw;
-    background-image: url('/templates/png/ikon.jpg');
+    background-image: url('/');
 }
 .cont_reg {
     display: flex;
@@ -55,7 +54,7 @@
     justify-content: flex-end;
 }
 .Profl {
-        display: flex;
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     width: 10vw;
@@ -63,7 +62,7 @@
     margin-top: 1vh;
     background-repeat: no-repeat;
     background-size: 4.5vw;
-    background-image: url('/templates/png/Profil.png');
+    background-image: "{{ url_for('static', filename='png/ikon.png') }}";
 }
 .Profl img {
     width: 40px;
@@ -82,7 +81,7 @@
 .textt {
     display: flex;
     justify-content: center;
-    transform: translate(-50% -50%);
+    margin-right: 14vw;
 }
 .sprak {
     margin-top: 7vw;
