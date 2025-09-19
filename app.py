@@ -1,4 +1,5 @@
 from flask import *
+from flask_sqlalchemy import *
 
 app = Flask(__name__)
 
@@ -8,13 +9,11 @@ def main_page():
 
 @app.route('/button1', methods=['POST'])
 def button1_action():
-    # Логика для кнопки 1
-    return "Кнопка 1 нажата!"
+    return render_template('ready_courses.html')
 
 @app.route('/button2', methods=['POST'])
 def button2_action():
-    # Логика для кнопки 2
-    return "Кнопка 2 нажата!"
+    return render_template('create_course.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

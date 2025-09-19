@@ -20,6 +20,8 @@
             <div class="Profl">
                 <img src="{{ url_for('static', filename='png/Profil.png') }}" alt="Profil">
             </div>
+            <!-- Если где-то есть ikon.jpg: -->
+            <img src="{{ url_for('static', filename='png/ikon.jpg') }}" alt="ikon">
         </div>
     </div>
     <div class="osnova">
@@ -28,8 +30,12 @@
             <h2 class="txt sprak">С проктикой и ментором Евгением</h2>
         </div>
         <div class="cnop">
-            <button class="btn">Готовые курсы</button>
-            <button class="btn">Создать свой курс</button>
+            <form action="/button1" method="post" style="display:inline;">
+                <button class="btn" type="submit">Готовые курсы</button>
+            </form>
+            <form action="/button2" method="post" style="display:inline;">
+                <button class="btn" type="submit">Создать свой курс</button>
+            </form>
         </div>
     </div>
     <section id="courses" class="container">
@@ -108,6 +114,5 @@
     </footer>
     <div class="zvezdi"></div>
     <div class="zvezdi1"></div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script> // Стас!! запомни! теперь так надо подключать скрипты!!!!
-</body>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script> 
 </html>

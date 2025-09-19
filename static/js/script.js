@@ -224,3 +224,4 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             return levels[level] || 'Любой';
         }
+
