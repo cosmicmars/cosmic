@@ -82,6 +82,7 @@
 .textt {
     display: flex;
     justify-content: center;
+    transform: translate(-50% -50%);
 }
 .sprak {
     margin-top: 7vw;

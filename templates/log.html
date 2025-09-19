@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Вход</title>
+</head>
+<body>
+    <form action="{{ url_for('login') }}" method="POST">
+        <div class="container">
+            <h1 class="h">Вход в аккаунт</h1>
+            <div class="cont1">
+                <input class="in" type="text" name="username" placeholder="Имя пользователя" required>
+                <br>
+                <input class="in" type="password" name="password" placeholder="Пароль" required>
+                <br>
+                <input class="in" type="key" name="key" placeholder="Код доступа" required>
+                <br>
+            </div>
+            <div class="cont2">
+                <a href="register.html" class="href">Нет аккаунта? Зарегистрироваться</a>
+                <br>
+                <button class="but"  type="submit">Войти</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
