@@ -337,12 +337,35 @@
         }
 
         /* Add Course Form */
+        .pop_up {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2;
+        }
+
+        .pop_up.active {
+            display: block;
+        }
+
+        .pop_up_close {
+            position: relative;
+            left: 60vw;
+            bottom: 75vh;
+            font-size: 21px;
+            cursor: pointer;
+        }
+
         .add-course {
             background: white;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            margin-bottom: 50px;
+            margin-top: 10vh;
         }
 
         .form-title {

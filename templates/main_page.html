@@ -18,6 +18,7 @@
                         <li><a href="#courses">Курсы</a></li>
                         <li><a href="#add-course">Добавить курс</a></li>
                         <li><a href="#about">О платформе</a></li>
+                        <li><a href="profil.html">Профиль</a></li>
                     </ul>
                 </nav>
             </div>
@@ -33,7 +34,7 @@
                 <button class="btn" type="submit">Готовые курсы</button>
             </form>
             <form action="/button2" method="post" style="display:inline;">
-                <button class="btn" type="submit">Создать свой курс</button>
+                <button class="btn" type="submit" id="open_pop_up">Создать свой курс</button>
             </form>
         </div>
     </div>
@@ -54,46 +55,51 @@
             <!-- Курсы будут загружены через JavaScript -->
         </div>
     </section>
-    <section id="add-course" class="container">
-        <div class="add-course">
-            <h2 class="form-title">Создать новый курс</h2>
-            <form id="course-form">
-                <div class="form-group">
-                    <label for="course-name">Название курса</label>
-                    <input type="text" id="course-name" required placeholder="Например, Веб-разработка с нуля">
+    <div class="pop_up">
+        <div class="pop_up_container">
+            <section id="add-course" class="container">
+                <div class="add-course">
+                    <h2 class="form-title">Создать новый курс</h2>
+                    <form id="course-form">
+                        <div class="form-group">
+                            <label for="course-name">Название курса</label>
+                            <input type="text" id="course-name" required placeholder="Например, Веб-разработка с нуля">
+                        </div>
+                        <div class="form-group">
+                            <label for="course-description">Описание курса</label>
+                            <textarea id="course-description" required placeholder="Опишите содержание курса, чему научатся студенты"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="course-category">Категория</label>
+                            <select id="course-category" required>
+                                <option value="">Выберите категорию</option>
+                                <option value="javaScript">Java Script</option>
+                                <option value="python">Python</option>
+                                <option value="C++">C++</option>
+                                <option value="flask">Flask</option>
+                                <option value="freimwork">Фреймвокри</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="course-duration">Длительность (часов)</label>
+                            <input type="number" id="course-duration" required placeholder="Например, 48" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="course-level">Уровень сложности</label>
+                            <select id="course-level" required>
+                                <option value="">Выберите уровень</option>
+                                <option value="beginner">Начинающий</option>
+                                <option value="intermediate">Средний</option>
+                                <option value="advanced">Продвинутый</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">Создать курс</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="course-description">Описание курса</label>
-                    <textarea id="course-description" required placeholder="Опишите содержание курса, чему научатся студенты"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="course-category">Категория</label>
-                    <select id="course-category" required>
-                        <option value="">Выберите категорию</option>
-                        <option value="javaScript">Java Script</option>
-                        <option value="python">Python</option>
-                        <option value="C++">C++</option>
-                        <option value="flask">Flask</option>
-                        <option value="freimwork">Фреймвокри</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="course-duration">Длительность (часов)</label>
-                    <input type="number" id="course-duration" required placeholder="Например, 48" min="1">
-                </div>
-                <div class="form-group">
-                    <label for="course-level">Уровень сложности</label>
-                    <select id="course-level" required>
-                        <option value="">Выберите уровень</option>
-                        <option value="beginner">Начинающий</option>
-                        <option value="intermediate">Средний</option>
-                        <option value="advanced">Продвинутый</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn">Создать курс</button>
-            </form>
+            <div class="pop_up_close">&#10006</div>
+            </section>
         </div>
-    </section>
+    </div>
         <footer id="about">
             <div class="container">
                 <div class="footer-content">
