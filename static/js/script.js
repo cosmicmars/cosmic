@@ -1,6 +1,60 @@
-document.addEventListener('DOMContentLoaded', function() {
+        // Цвета для первых трех курсов
+        const presetCourseColors = [
+            {
+                background: 'linear-gradient(135deg, #28a745 0%, #1e7e34 100%)',
+                border: '#28a745',
+                icon: '🐍'
+            },
+            {
+                background: 'linear-gradient(135deg, #dfee0dff 0%, #cddb07ff 100%)',
+                border: '#dfee0dff',
+                icon: '⚡'
+            },
+            {
+                background: 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)',
+                border: '#dc3545',
+                icon: '🚀'
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
             // Загрузка курсов из localStorage
             loadCourses();
+
+            // Обработчики для открытия модального окна
+            document.getElementById('open-modal-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                openModal();
+            });
+
+            document.getElementById('hero-add-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                openModal();
+            });
+
+            document.getElementById('footer-add-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                openModal();
+            });
+
+            // Обработчик для закрытия модального окна
+            document.getElementById('close-modal-btn').addEventListener('click', function() {
+                closeModal();
+            });
+
+            // Закрытие модального окна при клике вне его
+            document.getElementById('course-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+
+            // Закрытие модального окна по клавише ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
 
             // Обработка формы добавления курса
             document.getElementById('course-form').addEventListener('submit', function(e) {
@@ -13,37 +67,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 const level = document.getElementById('course-level').value;
 
                 addCourse(name, description, category, duration, level);
-
+                closeModal();
                 this.reset();
             });
 
+            // Обработчик кнопки удаления всех курсов
             document.getElementById('delete-all-btn').addEventListener('click', function() {
                 deleteAllCourses();
             });
         });
+
+        // Функции для работы с модальным окном
+        function openModal() {
+            document.getElementById('course-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Блокируем прокрутку фона
+        }
+
+        function closeModal() {
+            document.getElementById('course-modal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Восстанавливаем прокрутку
+            document.getElementById('course-form').reset(); // Сбрасываем форму
+        }
+
         // Функция удаления всех курсов
         function deleteAllCourses() {
-            // Проверяем, есть ли вообще курсы для удаления
             const courses = JSON.parse(localStorage.getItem('eduCourses')) || [];
             if (courses.length === 0) {
                 showNotification('Нет курсов для удаления!', 'info');
                 return;
             }
             
-            // Простое подтверждение через confirm()
             const isConfirmed = confirm('⚠️ Вы уверены, что хотите удалить ВСЕ курсы? Это действие нельзя отменить!');
             
             if (isConfirmed) {
-                // Удаляем все курсы из localStorage
                 localStorage.removeItem('eduCourses');
-                
-                // Перезагружаем список курсов
                 loadCourses();
-                
-                // Показываем уведомление
                 showNotification('Все курсы успешно удалены!', 'success');
             }
         }
+
         function loadCourses() {
             const coursesContainer = document.getElementById('courses-container');
             const courses = JSON.parse(localStorage.getItem('eduCourses')) || [];
@@ -92,31 +154,45 @@ document.addEventListener('DOMContentLoaded', function() {
             
             coursesContainer.innerHTML = '';
             
-            courses.forEach(course => {
-                const courseCard = createCourseCard(course);
+            courses.forEach((course, index) => {
+                const courseCard = createCourseCard(course, index);
                 coursesContainer.appendChild(courseCard);
             });
         }
-        function createCourseCard(course) {
+
+        function createCourseCard(course, index) {
             const courseCard = document.createElement('div');
             courseCard.className = 'course-card';
 
-            const colorHash = stringToColor(course.category);
-            const darkerColor = adjustColor(colorHash, -40);
+            let courseStyle = {};
+            let courseIcon = getCategoryIcon(course.category);
             
-            const categoryIcon = getCategoryIcon(course.category);
+            if (index < 3 && presetCourseColors[index]) {
+                courseStyle = presetCourseColors[index];
+                courseIcon = courseStyle.icon;
+            } else {
+                const colorHash = stringToColor(course.category);
+                const darkerColor = adjustColor(colorHash, -40);
+                courseStyle = {
+                    background: `linear-gradient(135deg, ${colorHash} 0%, ${darkerColor} 100%)`,
+                    border: colorHash,
+                    icon: courseIcon
+                };
+            }
+            
             const levelText = getLevelText(course.level);
+            const categoryName = getCategoryName(course.category);
             
             courseCard.innerHTML = `
                 <div class="course-badge">${levelText}</div>
-                <div class="course-image" style="background: linear-gradient(135deg, ${colorHash} 0%, ${darkerColor} 100%)">
-                    <div style="font-size: 60px; color: white;">${categoryIcon}</div>
+                <div class="course-image" style="background: ${courseStyle.background}; border-bottom: 2px solid ${courseStyle.border}">
+                    <div style="font-size: 60px; color: white;">${courseStyle.icon}</div>
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">${escapeHtml(course.name)}</h3>
                     <p class="course-description">${escapeHtml(course.description)}</p>
                     <div class="course-meta">
-                        <span>${getCategoryName(course.category)}</span>
+                        <span>${categoryName}</span>
                         <span>${course.duration} часов</span>
                     </div>
                     <div class="progress-bar">
@@ -138,7 +214,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             return courseCard;
         }
-        function addCourse(name, description, category, price, duration, level) {
+
+        function addCourse(name, description, category, duration, level) {
             const courses = JSON.parse(localStorage.getItem('eduCourses')) || [];
             
             const newCourse = {
@@ -146,23 +223,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 name,
                 description,
                 category,
-                price,
                 duration,
                 level,
-                students: Math.floor(Math.random() * 500) + 100, // ПОТОМ УДАЛИТЬ ВСЕ НА НУЛИ
-                rating: (Math.random() * 0.5 + 4.5).toFixed(1), 
-                progress: 0, 
+                students: Math.floor(Math.random() * 500) + 100,
+                rating: (Math.random() * 0.5 + 4.5).toFixed(1),
+                progress: 0,
                 date: new Date().toISOString().split('T')[0]
             };
             
             courses.push(newCourse);
             localStorage.setItem('eduCourses', JSON.stringify(courses));
             
-
             loadCourses();
-            
-            document.getElementById('courses').scrollIntoView({ behavior: 'smooth' });
-            
+            showNotification('Курс успешно создан!', 'success');
         }
 
         function stringToColor(str) {
@@ -205,7 +278,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const icons = {
                 'javaScript': '⚡',
                 'python': '🐍',
-                'c++': '🚀',
                 'flask': '🧪',
                 'freimwork': '⚛️',
             };
@@ -214,10 +286,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function getCategoryName(category) {
             const names = {
-                'programming': 'Программирование',
                 'python': 'Python',
                 'javaScript': 'JavaScript',
-                'freimwork': 'ФреймВорки',
+                'flask': 'Flask',
+                'freimwork': 'Фреймворки',
             };
             return names[category] || 'Другое';
         }
@@ -228,36 +300,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 'intermediate': 'Средний',
                 'advanced': 'Продвинутый'
             };
-                    return levels[level] || 'Любой';
-                }
-                const presetCourseColors = [
-            {
-                background: 'linear-gradient(135deg, #007acc 0%, #00599c 100%)',
-                border: '#007acc',
-                icon: '👨‍💻'
-            },
-            {
-                background: 'linear-gradient(135deg, #28a745 0%, #1e7e34 100%)',
-                border: '#28a745',
-                icon: '🚀'
-            },
-            {
-                background: 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)',
-                border: '#dc3545',
-                icon: '🎮'
+            return levels[level] || 'Любой';
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            
+            if (type === 'success') {
+                notification.style.background = '#28a745';
+            } else if (type === 'error') {
+                notification.style.background = '#e74c3c';
+            } else {
+                notification.style.background = '#3498db';
             }
-                ];
-const openPopUp = document.getElementById('open_pop_up')
-const closePopUp = document.getElementById('pop_up_close')
-const popUp = document.getElementById('pop_up')
-
-openPopUp.addEventListener('click', function(e) {
-    e.preventDefault();
-    popUp.classList.add('active');
-})
-
-closePopUp.addEventListener('click', () => {
-    popUp.classList.remove('active');
-})
-
-
+            
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }

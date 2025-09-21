@@ -7,114 +7,102 @@
     <title>Document</title>
 </head>
 <body>
-     <header>
+    <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <h2 class="cosm">Cosmic</h2>
+                    Cosmic
                 </div>
                 <nav>
                     <ul>
                         <li><a href="#courses">Курсы</a></li>
-                        <li><a href="#add-course">Добавить курс</a></li>
+                        <li><a href="#" id="open-modal-btn">Добавить курс</a></li>
                         <li><a href="#about">О платформе</a></li>
-                        <li><a href="profil.html">Профиль</a></li>
+                        <li><a src="{{ url_for('static', filename='templates/profil.html') }}">Профиль</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
-    <div class="osnova">
-        <div class="textt">
-            <h2 class="txt1 kursi">Курсы по програмированию</h2>
-            <h2 class="txt sprak">С проктикой и ментором Евгением</h2>
-        </div>
-        <div class="cnop">
-            <form action="/button1" method="post" style="display:inline;">
-                <button class="btn" type="submit">Готовые курсы</button>
-            </form>
-            <form action="/button2" method="post" style="display:inline;">
-                <button class="btn" type="submit" id="open_pop_up">Создать свой курс</button>
-            </form>
-        </div>
-    </div>
-    <section id="courses" class="container">
-        <h2 class="section-title">Активные курсы</h2>
-        <div class="courses-grid" id="courses-container">
-            <!-- Гружу курсы через JS!!! -->
+
+    <section class="hero">
+        <div class="container">
+            <h1>Образование, которое меняет жизнь</h1>
+            <p>Откройте для себя мир знаний с нашими курсами от лучших преподавателей или создайте свой собственный курс!</p>
+            <a href="#courses" class="btn">Начать обучение</a>
+            <a href="#" class="btn btn-secondary" id="hero-add-btn">Создать курс</a>
         </div>
     </section>
+
     <section id="courses" class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2></h2>
-            <button id="delete-all-btn" class="btn" style="background: #e74c3c;">
-                🗑️ Удалить все курсы
-            </button>
-        </div>
+        <h2 class="section-title" style="margin: 5;">Активные курсы</h2>
         <div class="courses-grid" id="courses-container">
             <!-- Курсы будут загружены через JavaScript -->
         </div>
+        <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 30px;">
+            <button id="delete-all-btn" class="btn del_btn" style="background: #e74c3c;">
+                🗑️ Удалить все курсы
+            </button>
+        </div>
     </section>
-    <div class="pop_up">
-        <div class="pop_up_container">
-            <section id="add-course" class="container">
-                <div class="add-course">
-                    <h2 class="form-title">Создать новый курс</h2>
-                    <form id="course-form">
-                        <div class="form-group">
-                            <label for="course-name">Название курса</label>
-                            <input type="text" id="course-name" required placeholder="Например, Веб-разработка с нуля">
-                        </div>
-                        <div class="form-group">
-                            <label for="course-description">Описание курса</label>
-                            <textarea id="course-description" required placeholder="Опишите содержание курса, чему научатся студенты"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="course-category">Категория</label>
-                            <select id="course-category" required>
-                                <option value="">Выберите категорию</option>
-                                <option value="javaScript">Java Script</option>
-                                <option value="python">Python</option>
-                                <option value="C++">C++</option>
-                                <option value="flask">Flask</option>
-                                <option value="freimwork">Фреймвокри</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="course-duration">Длительность (часов)</label>
-                            <input type="number" id="course-duration" required placeholder="Например, 48" min="1">
-                        </div>
-                        <div class="form-group">
-                            <label for="course-level">Уровень сложности</label>
-                            <select id="course-level" required>
-                                <option value="">Выберите уровень</option>
-                                <option value="beginner">Начинающий</option>
-                                <option value="intermediate">Средний</option>
-                                <option value="advanced">Продвинутый</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn">Создать курс</button>
-                    </form>
+
+    <!-- Popup Modal -->
+    <div id="course-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal-btn">&times;</button>
+            <h2 class="form-title">Создать новый курс</h2>
+            <form id="course-form">
+                <div class="form-group">
+                    <label for="course-name">Название курса</label>
+                    <input type="text" id="course-name" required placeholder="Например, Веб-разработка с нуля">
                 </div>
-            <div class="pop_up_close">&#10006</div>
-            </section>
+                <div class="form-group">
+                    <label for="course-description">Описание курса</label>
+                    <textarea id="course-description" required placeholder="Опишите содержание курса, чему научатся студенты"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="course-category">Категория</label>
+                    <select id="course-category" required>
+                        <option value="">Выберите категорию</option>
+                        <option value="python">Python</option>
+                        <option value="javaScript">JavaScript</option>
+                        <option value="flask">Flask</option>
+                        <option value="freimwork">Фреймворки</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="course-duration">Длительность (часов)</label>
+                    <input type="number" id="course-duration" required placeholder="Например, 48" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="course-level">Уровень сложности</label>
+                    <select id="course-level" required>
+                        <option value="">Выберите уровень</option>
+                        <option value="beginner">Начинающий</option>
+                        <option value="intermediate">Средний</option>
+                        <option value="advanced">Продвинутый</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Создать курс</button>
+            </form>
         </div>
     </div>
-        <footer id="about">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-logo">Cosmic</div>
-                    <ul class="footer-links">
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#courses">Курсы</a></li>
-                        <li><a href="#add-course">Создать курс</a></li>
-                        <li><a href="#about">О нас</a></li>
-                        <li><a href="#">Контакты</a></li>
-                    </ul>
-                    <p class="copyright">© 2025 Cosmic. Все права защищены.</p>
-                </div>
+
+    <footer id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Cosmic</div>
+                <ul class="footer-links">
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="#courses">Курсы</a></li>
+                    <li><a href="#" id="footer-add-btn">Создать курс</a></li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+                <p class="copyright">© 2025 Cosmic. Все права защищены.</p>
             </div>
-        </footer>
+        </div>
+    </footer>
     <section class="neiro">
         <div class="neir">
             <input type="text" name="" id="promt">
@@ -123,4 +111,5 @@
         </div>
     </section>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script> 
+</body>
 </html>
