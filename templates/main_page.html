@@ -11,14 +11,20 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
+                    <img src="{{ url_for('static', filename='images/2.png') }}" alt="Logo" class="logo_img">
                     Cosmic
                 </div>
                 <nav>
-                    <ul>
+                    <ul class="slova">
                         <li><a href="#courses">Курсы</a></li>
                         <li><a href="#" id="open-modal-btn">Добавить курс</a></li>
                         <li><a href="#about">О платформе</a></li>
-                        <li><a src="{{ url_for('static', filename='templates/profil.html') }}">Профиль</a></li>
+                        <div class="akk">
+                            <img src="{{ url_for('static', filename='images/Profil.png') }}" alt="Profil" class="profil_img">
+                            <li><a href="log.html">Войти</a></li>
+                            <li><a href="register.html">Зарегистрироваться</a></li>
+                            <!-- <li><a href="{{ url_for('profile') }}">Профиль</a></li> -->
+                        </div>
                     </ul>
                 </nav>
             </div>
@@ -90,7 +96,7 @@
 
     <footer id="about">
         <div class="container">
-            <div class="footer-content">
+            <div class="footer-content"> 
                 <div class="footer-logo">Cosmic</div>
                 <ul class="footer-links">
                     <li><a href="#">Главная</a></li>

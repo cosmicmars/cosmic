@@ -73,5 +73,10 @@ def button1_action():
 def button2_action():
     return render_template('create_course.html')
 
+# МАРШРУТЫ HTML СТРАНИЧЕК
+@app.route('/profile') 
+def profile():
+    return render_template('profil.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
