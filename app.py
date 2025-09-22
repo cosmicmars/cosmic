@@ -30,7 +30,10 @@ def save_users(users):
 def main_page():
     return render_template('main_page.html')
 
+
+# Оба маршрута /register и /register.html отображают register.html
 @app.route('/register', methods=['GET'])
+@app.route('/register.html', methods=['GET'])
 def register_page():
     return render_template('register.html')
 
@@ -63,7 +66,15 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('log.html')
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    users = load_users()
+    for user in users:
+        if user['username'] == username and user['password'] == password:
+            return redirect(url_for('profile'))
+
+    return "Неверное имя пользователя или пароль! <a href='/login'>Попробовать снова</a>"
 
 @app.route('/button1', methods=['POST'])
 def button1_action():
@@ -77,6 +88,10 @@ def button2_action():
 @app.route('/profile') 
 def profile():
     return render_template('profil.html')
+
+@app.route('/log.html')
+def log_html():
+    return render_template('log.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
