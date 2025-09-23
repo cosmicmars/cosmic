@@ -11,33 +11,45 @@
     <title>Регистрация</title>
 </head>
 <body>
-    <div class="container">
-        <h1 class="h">Регистрация</h1>
-        <form action="{{ url_for('register') }}" method="POST"> 
-            <div class="inp">
-                <input class="in ina" type="text" placeholder="Имя пользователя" name="username" required>
-                <br>
-                <input class="in ina" type="password" placeholder="Пароль" name="password" required>
-                <br>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/2.png') }}" alt="Logo" class="logo_img">
+                    Cosmic
+                </div>
+                <nav>
+                    <ul class="slova">
+                        <div class="akk">
+                            <img src="{{ url_for('static', filename='images/Profil.png') }}" alt="Profil" class="profil_img">
+                            <li><a href="log.html">Войти</a></li>
+                            <li><a href="register.html">Зарегистрироваться</a></li>
+                            <!-- <li><a href="{{ url_for('profile') }}">Профиль</a></li> -->
+                        </div>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <form action="{{ url_for('register') }}" method="POST"> 
+        <div class="container form_reg">
+            <h1 class="h">Регистрация</h1>
+            <div class="cont">
                 <div class="cont1">
-                    <input class="in inb" placeholder="Имя" type="text" name="first_name" required>
-                    <br>
-                    <input class="in inb1" type="text" placeholder="Фамилмя" name="last_name" required>
-                    <br>
+                    <h3 class="place">Имя*</h3>
+                    <input class="in" type="text" name="username" required>
+                    <h3 class="place">Email*</h3>
+                    <input class="in" type="password" name="password" required>
+                    <h3 class="place">Пароль*</h3>
+                    <input class="in" type="password" name="password" required>
                 </div>
-                <div class="cont2">
-                    <input class="xyita in" type="number" placeholder="Возраст" name="age" required>
-                    <br>
-                    <textarea class="xyita1 in" placeholder="О себе" name="about_me"></textarea>
-                    <br>
-                </div>
-                <div class="cont15">
+                <div class="cont3">
                     <a href="log.html" class="href">Уже есть аккаунт? Войти</a>
                     <br>
-                    <button class="but" type="submit">Зарегистрироваться</button>
+                    <button class="btn_reg" type="submit">Зарегистрироваться</button>
                 </div>
-            </div>
-        </form> 
-    </div>
+            </div> 
+        </div>
+    </form>
 </body>
 </html>

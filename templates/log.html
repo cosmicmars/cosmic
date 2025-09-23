@@ -6,24 +6,52 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/login.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Вход</title>
 </head>
 <body>
-    <form action="{{ url_for('login') }}" method="POST">
+    <header>
         <div class="container">
-            <h1 class="h">Вход в аккаунт</h1>
-            <div class="cont1">
-                <input class="in" type="text" name="username" placeholder="Имя пользователя" required>
-                <br>
-                <input class="in" type="password" name="password" placeholder="Пароль" required>
-                <br>
+            <div class="header-content">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/2.png') }}" alt="Logo" class="logo_img">
+                    Cosmic
+                </div>
+                <nav>
+                    <ul class="slova">
+                        <div class="akk">
+                            <img src="{{ url_for('static', filename='images/Profil.png') }}" alt="Profil" class="profil_img">
+                            <li><a href="log.html">Войти</a></li>
+                            <li><a href="register.html">Зарегистрироваться</a></li>
+                            <!-- <li><a href="{{ url_for('profile') }}">Профиль</a></li> -->
+                        </div>
+                    </ul>
+                </nav>
             </div>
-            <div class="cont2">
-                <a href="register.html" class="href">Нет аккаунта? Зарегистрироваться</a>
-                <br>
-                <button class="but"  type="submit">Войти</button>
+        </div>
+    </header>
+    <form action="{{ url_for('login') }}" method="POST">
+        <div class="container form_login">
+            <h1 class="h">Вход в аккаунт</h1>
+            <div class="cont">
+                <div class="cont1">
+                    <h3 class="place">Email*</h3>
+                    <br>
+                    <input class="in" type="text" name="username" required>
+                    <br>
+                    <h3 class="place">Пароль*</h3>
+                    <br>
+                    <input class="in" type="password" name="password" required>
+                    <br>
+                </div>
+                <div class="cont2">
+                    <a href="register.html" class="href fix_pass">Восстановить пороль</a>
+                    <br>
+                    <button class="but_log"  type="submit">Войти</button>
+                    
+                </div>
+                <a href="register.html" class="href no_akk">Нет аккаунта? Зарегистрироваться</a>
             </div>
         </div>
     </form>
