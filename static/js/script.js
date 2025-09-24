@@ -17,22 +17,53 @@
             }
         ];
 
-        document.addEventListener('DOMContentLoaded', function() {
+        let isAuthenticated = false;
+        let currentUser = null;
+
+        async function fetchAuthStatus() {
+            try {
+                const res = await fetch('/auth/status', { credentials: 'same-origin' });
+                if (!res.ok) return;
+                const data = await res.json();
+                isAuthenticated = !!data.authenticated;
+                currentUser = data;
+            } catch (e) {
+                isAuthenticated = false;
+            }
+        }
+
+        function ensureAuthOrRedirect(e) {
+            if (!isAuthenticated) {
+                if (e && e.preventDefault) e.preventDefault();
+                showNotification('Войдите в аккаунт, чтобы продолжить', 'error');
+                setTimeout(() => {
+                    window.location.href = '/log.html';
+                }, 600);
+                return false;
+            }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            await fetchAuthStatus();
             // Загрузка курсов из localStorage
             loadCourses();
 
             // Обработчики для открытия модального окна
             document.getElementById('open-modal-btn').addEventListener('click', function(e) {
+                if (!ensureAuthOrRedirect(e)) return;
                 e.preventDefault();
                 openModal();
             });
 
             document.getElementById('hero-add-btn').addEventListener('click', function(e) {
+                if (!ensureAuthOrRedirect(e)) return;
                 e.preventDefault();
                 openModal();
             });
 
             document.getElementById('footer-add-btn').addEventListener('click', function(e) {
+                if (!ensureAuthOrRedirect(e)) return;
                 e.preventDefault();
                 openModal();
             });
@@ -59,6 +90,7 @@
             // Обработка формы добавления курса
             document.getElementById('course-form').addEventListener('submit', function(e) {
                 e.preventDefault();
+                if (!ensureAuthOrRedirect(e)) return;
 
                 const name = document.getElementById('course-name').value;
                 const description = document.getElementById('course-description').value;
@@ -72,7 +104,8 @@
             });
 
             // Обработчик кнопки удаления всех курсов
-            document.getElementById('delete-all-btn').addEventListener('click', function() {
+            document.getElementById('delete-all-btn').addEventListener('click', function(e) {
+                if (!ensureAuthOrRedirect(e)) return;
                 deleteAllCourses();
             });
         });

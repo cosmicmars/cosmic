@@ -22,9 +22,13 @@
                     <ul class="slova">
                         <div class="akk">
                             <img src="{{ url_for('static', filename='images/Profil.png') }}" alt="Profil" class="profil_img">
-                            <li><a href="log.html">Войти</a></li>
-                            <li><a href="register.html">Зарегистрироваться</a></li>
-                            <!-- <li><a href="{{ url_for('profile') }}">Профиль</a></li> -->
+                            {% if is_authenticated %}
+                                <li><a href="{{ url_for('profile') }}">{{ current_user.name }}</a></li>
+                                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+                            {% else %}
+                                <li><a href="log.html">Войти</a></li>
+                                <li><a href="register.html">Зарегистрироваться</a></li>
+                            {% endif %}
                         </div>
                     </ul>
                 </nav>
@@ -38,7 +42,7 @@
                 <div class="cont1">
                     <h3 class="place">Email*</h3>
                     <br>
-                    <input class="in" type="text" name="username" required>
+                    <input class="in" type="text" name="email" required>
                     <br>
                     <h3 class="place">Пароль*</h3>
                     <br>

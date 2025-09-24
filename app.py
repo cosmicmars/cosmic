@@ -1,26 +1,34 @@
-from flask import Flask, render_template, request, redirect, url_for
+
+from flask import Flask, render_template, request, redirect, url_for, session
 import json
 import os
+import bcrypt
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-change-me')
+
 
 JSON_FILE = 'users.json'
 
+# Храним пользователей как словарь: username -> user_info
 def load_users():
     if os.path.exists(JSON_FILE):
         with open(JSON_FILE, 'r', encoding='utf-8') as f:
             content = f.read().strip()
             if not content:
-                return []
+                return {}
             try:
                 data = json.loads(content)
-                if isinstance(data, list):
+                if isinstance(data, dict):
                     return data
+                elif isinstance(data, list):
+                    # Миграция: преобразуем список в словарь
+                    return {u['username']: u for u in data if 'username' in u}
                 else:
-                    return []
+                    return {}
             except json.JSONDecodeError:
-                return []
-    return []
+                return {}
+    return {}
 
 def save_users(users):
     with open(JSON_FILE, 'w', encoding='utf-8') as f:
@@ -32,49 +40,43 @@ def main_page():
 
 
 # Оба маршрута /register и /register.html отображают register.html
-@app.route('/register', methods=['GET'])
-@app.route('/register.html', methods=['GET'])
-def register_page():
+
+# Регистрация (GET/POST)
+@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register.html', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+        users = load_users()
+        if email in users:
+            return "Пользователь с этим email уже существует! <a href='/register'>Попробовать снова</a>", 400
+        password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        users[email] = {
+            'name': name,
+            'password': password_hash.decode('utf-8'),
+            'profile_picture': None
+        }
+        save_users(users)
+        # Автовход после успешной регистрации
+        session['email'] = email
+        return redirect(url_for('profile'))
     return render_template('register.html')
 
-@app.route('/register', methods=['POST'])
-def register():
-    username = request.form['username']
-    password = request.form['password']
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    age = request.form['age']
-    about_me = request.form.get('about_me', '')
 
-    users = load_users()
-    for user in users:
-        if user['username'] == username:
-            return "Пользователь с таким именем уже существует! <a href='/register'>Попробовать снова</a>"
-
-    new_user = {
-        'username': username,
-        'password': password,
-        'first_name': first_name,
-        'last_name': last_name,
-        'age': int(age),
-        'about_me': about_me
-    }
-    users.append(new_user)
-    save_users(users)
-
-    return redirect(url_for('main_page'))
-
+# Вход (GET/POST)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-
-    users = load_users()
-    for user in users:
-        if user['username'] == username and user['password'] == password:
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        users = load_users()
+        if email in users and bcrypt.checkpw(password.encode('utf-8'), users[email]['password'].encode('utf-8')):
+            session['email'] = email
             return redirect(url_for('profile'))
-
-    return "Неверное имя пользователя или пароль! <a href='/login'>Попробовать снова</a>"
+        return "Неверный email или пароль! <a href='/login'>Попробовать снова</a>", 401
+    return render_template('log.html')
 
 @app.route('/button1', methods=['POST'])
 def button1_action():
@@ -85,13 +87,47 @@ def button2_action():
     return render_template('create_course.html')
 
 # МАРШРУТЫ HTML СТРАНИЧЕК
-@app.route('/profile') 
+
+# Профиль пользователя
+@app.route('/profile')
 def profile():
-    return render_template('profil.html')
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    users = load_users()
+    user_info = users.get(session['email'])
+    return render_template('profil.html', user_info=user_info)
+@app.route('/logout')
+def logout():
+    session.pop('email', None)
+    return redirect(url_for('main_page'))
 
 @app.route('/log.html')
 def log_html():
     return render_template('log.html')
+
+# Глобально прокидываем текущего пользователя в шаблоны
+@app.context_processor
+def inject_current_user():
+    current_email = session.get('email')
+    users = load_users() if current_email else {}
+    current_user = users.get(current_email) if current_email else None
+    return {
+        'current_user': current_user,
+        'current_email': current_email,
+        'is_authenticated': current_user is not None,
+    }
+
+# Эндпоинт для фронтенда: статус аутентификации
+@app.route('/auth/status')
+def auth_status():
+    current_email = session.get('email')
+    users = load_users() if current_email else {}
+    user = users.get(current_email) if current_email else None
+    return {
+        'authenticated': user is not None,
+        'email': current_email,
+        'name': user['name'] if user else None,
+    }
 
 
 if __name__ == '__main__':

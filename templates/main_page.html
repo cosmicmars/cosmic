@@ -24,9 +24,13 @@
                         <li><a href="#about">О платформе</a></li>
                         <div class="akk">
                             <img src="{{ url_for('static', filename='images/Profil.png') }}" alt="Profil" class="profil_img">
-                            <li><a href="log.html">Войти</a></li>
-                            <li><a href="register.html">Зарегистрироваться</a></li>
-                            <!-- <li><a href="{{ url_for('profile') }}">Профиль</a></li> -->
+                            {% if is_authenticated %}
+                                <li><a href="{{ url_for('profile') }}">{{ current_user.name }}</a></li>
+                                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+                            {% else %}
+                                <li><a href="log.html">Войти</a></li>
+                                <li><a href="register.html">Зарегистрироваться</a></li>
+                            {% endif %}
                         </div>
                     </ul>
                 </nav>
