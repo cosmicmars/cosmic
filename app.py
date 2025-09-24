@@ -93,5 +93,6 @@ def profile():
 def log_html():
     return render_template('log.html')
 
+
 if __name__ == '__main__':
     app.run(debug=True)
