@@ -1,8 +1,8 @@
-
 from flask import Flask, render_template, request, redirect, url_for, session
 import json
 import os
 import bcrypt
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-change-me')
@@ -129,6 +129,27 @@ def auth_status():
         'name': user['name'] if user else None,
     }
 
+_logo_printed = False
+
+def print_logo():
+    global _logo_printed
+    if not _logo_printed:
+        ascii_logo = [
+            "                                                 _/            ",
+            "    _/_/_/    _/_/      _/_/_/  _/_/_/  _/_/          _/_/_/   ",
+            " _/        _/    _/  _/_/      _/    _/    _/  _/  _/          ",
+            "_/        _/    _/      _/_/  _/    _/    _/  _/  _/           ",
+            " _/_/_/    _/_/    _/_/_/    _/    _/    _/  _/    _/_/_/      "
+        ]
+        
+        console_width = os.get_terminal_size().columns
+        for line in ascii_logo:
+            centered_line = line.center(console_width)
+            print(centered_line)
+        _logo_printed = True
+
+# Вместо logo_term() просто вызывайте:
+print_logo()
 
 if __name__ == '__main__':
     app.run(debug=True)
