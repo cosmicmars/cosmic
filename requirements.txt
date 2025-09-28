@@ -1,2 +1,5 @@
 flask
-bcrypt
+flask-cors
+openai
+python-dotenv
+g4f[all]

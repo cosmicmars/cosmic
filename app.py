@@ -1,12 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import json
 import os
 import bcrypt
-
+from ai_provider import get_ai_response  # Импортируем функцию из ai_provider.py
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-change-me')
-
+app.secret_key = 'your_secret_key_here'  # Замените на ваш секретный ключ
 
 JSON_FILE = 'users.json'
 
@@ -30,6 +29,7 @@ def load_users():
                 return {}
     return {}
 
+
 def save_users(users):
     with open(JSON_FILE, 'w', encoding='utf-8') as f:
         json.dump(users, f, ensure_ascii=False, indent=2)
@@ -37,9 +37,6 @@ def save_users(users):
 @app.route('/')
 def main_page():
     return render_template('main_page.html')
-
-
-# Оба маршрута /register и /register.html отображают register.html
 
 # Регистрация (GET/POST)
 @app.route('/register', methods=['GET', 'POST'])
@@ -96,6 +93,7 @@ def profile():
     users = load_users()
     user_info = users.get(session['email'])
     return render_template('profil.html', user_info=user_info)
+
 @app.route('/logout')
 def logout():
     session.pop('email', None)
@@ -104,6 +102,31 @@ def logout():
 @app.route('/log.html')
 def log_html():
     return render_template('log.html')
+
+# AI Chat маршруты
+@app.route("/ai-page-test", methods=['GET'])
+def ai_page():
+    return render_template('ai_page.html')
+
+@app.route("/api/ai-chat", methods=['POST'])
+def ai_chat():
+    try:
+        data = request.get_json()
+        user_message = data.get('message', '')
+        
+        if not user_message:
+            return jsonify({'error': 'Пустое сообщение'}), 400
+        
+        # Получаем ответ от AI
+        ai_response = get_ai_response(user_message)
+        
+        return jsonify({
+            'response': ai_response,
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        return jsonify({'error': f'Ошибка сервера: {str(e)}'}), 500
 
 # Глобально прокидываем текущего пользователя в шаблоны
 @app.context_processor
@@ -141,14 +164,11 @@ def print_logo():
             "_/        _/    _/      _/_/  _/    _/    _/  _/  _/           ",
             " _/_/_/    _/_/    _/_/_/    _/    _/    _/  _/    _/_/_/      "
         ]
-        
-        console_width = os.get_terminal_size().columns
+
         for line in ascii_logo:
-            centered_line = line.center(console_width)
-            print(centered_line)
+            print(line)
         _logo_printed = True
 
-# Вместо logo_term() просто вызывайте:
 print_logo()
 
 if __name__ == '__main__':

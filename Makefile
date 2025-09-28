@@ -5,7 +5,7 @@ APP_NAME = cosmic-server
 SOURCE = app.py
 INSTALL_DIR = /usr/local/bin
 PYTHON = python3
-PIP = pip                    
+PIP = pip3            
 
 # Файл с зависимостями
 REQUIREMENTS = requirements.txt
