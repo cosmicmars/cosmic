@@ -15,13 +15,13 @@
                     <a href="/" class="logo-link">
                         {% include 'logo.html' %} <!-- если че вот так надо теперь лого делать!!! -->
                     </a>
-                    Cosmic
+                    VoxSport
                 </div>
                 <nav>
                     <ul class="slova">
-                        <li><a href="#courses">Курсы</a></li>
-                        <li><a href="#" id="open-modal-btn">Добавить курс</a></li>
-                        <li><a href="#about">О платформе</a></li>
+                        <li><a href="#courses">Готовые программы</a></li>
+                        <li><a href="#" id="open-modal-btn">Создать программу под себя</a></li>
+                        <li><a href="#about">Изменить свои данные/a></li>
                         <div class="akk">
                             <img src="{{ url_for('static', filename='images/Profil.png') }}" alt="Profil" class="profil_img">
                             {% if is_authenticated %}
@@ -40,8 +40,8 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Образование, которое меняет жизнь</h1>
-            <p>Откройте для себя мир знаний с нашими курсами от лучших преподавателей или создайте свой собственный курс!</p>
+            <h1>слова</h1>
+            <p>Слова</p>
             <a href="#courses" class="btn">Начать обучение</a>
             <a href="#" class="btn btn-secondary" id="hero-add-btn">Создать курс</a>
             <a href="/ai-page-test" class="btn">окно с нейросетью</a>

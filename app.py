@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import json
-import os
-import bcrypt
-from ai_provider import get_ai_response  # Импортируем функцию из ai_provider.py
+import os# Импортируем функцию из ai_provider.py
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Замените на ваш секретный ключ
@@ -102,55 +100,6 @@ def logout():
 @app.route('/log.html')
 def log_html():
     return render_template('log.html')
-
-# AI Chat маршруты
-@app.route("/ai-page-test", methods=['GET'])
-def ai_page():
-    return render_template('ai_page.html')
-
-@app.route("/api/ai-chat", methods=['POST'])
-def ai_chat():
-    try:
-        data = request.get_json()
-        user_message = data.get('message', '')
-        
-        if not user_message:
-            return jsonify({'error': 'Пустое сообщение'}), 400
-        
-        # Получаем ответ от AI
-        ai_response = get_ai_response(user_message)
-        
-        return jsonify({
-            'response': ai_response,
-            'status': 'success'
-        })
-        
-    except Exception as e:
-        return jsonify({'error': f'Ошибка сервера: {str(e)}'}), 500
-
-# Глобально прокидываем текущего пользователя в шаблоны
-@app.context_processor
-def inject_current_user():
-    current_email = session.get('email')
-    users = load_users() if current_email else {}
-    current_user = users.get(current_email) if current_email else None
-    return {
-        'current_user': current_user,
-        'current_email': current_email,
-        'is_authenticated': current_user is not None,
-    }
-
-# Эндпоинт для фронтенда: статус аутентификации
-@app.route('/auth/status')
-def auth_status():
-    current_email = session.get('email')
-    users = load_users() if current_email else {}
-    user = users.get(current_email) if current_email else None
-    return {
-        'authenticated': user is not None,
-        'email': current_email,
-        'name': user['name'] if user else None,
-    }
 
 _logo_printed = False
 
